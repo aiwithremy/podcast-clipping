@@ -152,7 +152,7 @@ Do the first one completely and compare a still with the reference (or the user'
 
 Two routes:
 
-**A. In the user's editor of choice** (CapCut, Premiere, DaVinci Resolve, Final Cut and so on). The route the first job used. The editor has the platform's own fonts, and the title stays a layer the user can change before posting. The cost is speed: each version is made by hand or one at a time, about a minute each. Tell the user the total up front. Add the text with the style above, from 0 seconds for about 5 seconds, and export at the clip's own size and frame rate.
+**A. In Instagram Edits, driven by you (the default on a Mac),** or in the user's own editor. The route the first job used. Edits has Instagram's own Classic font, and the title stays a layer the user can change before posting. In Edits: duplicate the clip's music project, rename the copy "SOURCE ID title - the hook text", open it, add the text from 0 seconds for about 5 seconds in the Classic font with a white background pill, set the export settings again (they reset on open), and export to `~/Movies`. List the text tools first, since names can change between Edits versions. The cost is speed: each version is made by hand or one at a time, about a minute each. Tell the user the total up front. Add the text with the style above, from 0 seconds for about 5 seconds, and export at the clip's own size and frame rate.
 
 **B. Burned in with the kit.** Faster, and it can run unattended. The title is baked into the picture, so it cannot be edited later, and the font is the caption font (a close match, not the platform's own). Early rounds on the first job were made this way, and the host preferred route A. Use B when the user has no editor or asks for speed.
 

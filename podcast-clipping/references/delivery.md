@@ -75,7 +75,11 @@ Short lines. White space. No recap of the process. Example of the right size:
 
 ## Where the files go
 
-Ask once where the finished clips should go, if the user has not said. Wherever their footage lives works: a local folder, Google Drive, Dropbox, a team drive. A layout that worked:
+Ask once where the finished clips should go, if the user has not said:
+
+"Where do you want the finished clips saved? Do you have a content folder in Google Drive, Dropbox or OneDrive? Or I can save them in a folder on this Mac."
+
+The simplest way into a cloud drive is the folder its desktop app puts on the computer (look in Finder's sidebar or `~/Library/CloudStorage/`). Saving there uploads it for them, with no logins for you to handle. If the desktop app isn't installed, offer to walk them through installing it, or save to a folder on the Mac for now. Remember the answer for next time if you can. A layout that worked:
 
 ```
 Clips/YYYY/SOURCE NAME/With music (final)/

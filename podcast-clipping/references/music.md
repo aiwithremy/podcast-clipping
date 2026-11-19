@@ -74,9 +74,11 @@ Your ear (or the user's) decides. An agent cannot hear. Mood notes in the bank c
 
 ## Adding the music
 
-Two routes. Both keep a copy of every clip without music.
+Three routes. All keep a copy of every clip without music.
 
-**In the user's editor of choice** (CapCut, Premiere, DaVinci Resolve, Final Cut and so on). This is the route to take when the song comes from the platform's own licensed library, which usually lives inside its app. One song per clip, starting at the song's start point, at the level above. Export at the clip's size and frame rate (1080x1920, and 24 for a 23.976 clip, 30 for a 29.97 clip). Check that the export is the same length as the clip without music.
+**In Instagram Edits, driven by you (the default on a Mac).** Edits has Instagram's licensed song library, and posting from Edits or Instagram is the safe route for those songs. It needs the Edits app open with its automation server connected (see `first-run-setup.md`). The recipe is below, under "The Edits recipe".
+
+**In the user's own editor** (CapCut, Premiere, DaVinci Resolve, Final Cut and so on), if they would rather do it by hand. This is the route to take when the song comes from the platform's own licensed library, which usually lives inside its app. One song per clip, starting at the song's start point, at the level above. Export at the clip's size and frame rate (1080x1920, and 24 for a 23.976 clip, 30 for a 29.97 clip). Check that the export is the same length as the clip without music.
 
 **With ffmpeg, for a song file you are allowed to use.** The kit has no music step of its own, so use this command. It starts the song at `START` seconds, sets the music to about -28 LUFS (about 13 dB under a -15 LUFS voice), fades it in and out, and mixes it under the clip:
 
@@ -92,6 +94,46 @@ ffmpeg -y -i "$CLIP" -ss "$START" -i "$SONG" -filter_complex \
 Measure the result (below). Move `I=-28` up or down a dB or two to land 11 to 16 dB under the voice. Use the same value for the whole batch unless a song measures outside that range.
 
 Do the music before the first delivery. The approved clips all had music, and redoing it on a recut clip takes about a minute.
+
+## The Edits recipe
+
+Use the Edits tools (from the Edits automation server, usually `metapilot-native`). Edits must be open. The tool list follows the screen: a short list on the home screen, the full editor set once a project is open. Tool names can change between Edits versions, so if one below is missing, list the tools and use the closest match.
+
+Before starting:
+
+- Edits can only read and write inside `~/Movies`. Copy the captioned clips to `~/Movies/Clips for Edits/` first, and export there too.
+- One project per clip, named `SOURCE CLIPID music`, for example "Sam podcast 03 music".
+- Never touch a project you did not create. Never delete or overwrite one of the user's projects.
+- **Never post or publish from Edits.** The user posts.
+
+Steps:
+
+1. `newProject {}`. Returns the project id.
+2. `renameProject {id, name}`.
+3. `openProject {id, name: ""}`. Both keys are required. Do this after the rename.
+4. `setCanvas {aspect: "9:16", frameRate: 24}` (or 30, to match the clip). Check with `getCanvas {}`.
+5. `importToMediaPanel {path}` with the clip's full path under `~/Movies`. Returns `aliasIds`.
+6. `addMediaPanelItemsToTimeline {aliasIds: [...]}`. Returns the video element id.
+7. Find the song: `listMusicTracks {query: "song title artist"}`. Each row has `audioAssetId`, title, artist, duration, and flags for licensed, royalty-free and explicit. Check title and artist: search returns many versions (slowed, sped up, covers).
+8. `seek {seconds: 0}` so the song lands at the start.
+9. `addSongToComposition {audioAssetId}`. It comes in as long as the clip. Returns the music element id.
+10. `setVolume {id, volume: 0.22}`. Adjust after measuring.
+11. `setFade {id, fadeIn: 0.5, fadeOut: 1}`.
+12. `setDucking {id, behavior: "none"}`.
+13. Song start: `slipClip {id, deltaSeconds: START}`. This moves where in the song the clip begins. The clip's position and length stay the same.
+14. `saveProject {}`.
+15. `setExportSettings {resolution: "1080x1920", frameRate: 24, quality: "High", aspectRatio: "nineBySixteen", dynamicRange: "SDR", resolutionType: "HD"}`. All six keys.
+16. `export {path}` to a file under `~/Movies`, then `exportStatus {}` until it reads complete.
+17. Copy the file to the delivery folder as `ID_slug_music.mp4`.
+
+Gotchas from the first job:
+
+- After `renameProject`, the editor tools can return "Unknown tool" until the project is opened again.
+- Export settings reset every time a project is opened. Set them before every export.
+- `addMusicTrack` can report success and add nothing. Use `addSongToComposition`.
+- `searchMusic` returns titles only. Use `listMusicTracks` for ids.
+- A first export to a new folder can fail with "Cannot create file". Trying again straight after worked.
+- Match the frame rate: 24 for a 23.976 clip, 30 for a 29.97 clip. Left on the default, an export came out at 60.
 
 ## Checking the result
 

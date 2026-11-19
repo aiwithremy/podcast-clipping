@@ -18,14 +18,16 @@ Made by [Remy Gaskell](https://www.instagram.com/aiwithremy).
 
 ## Use it
 
-Say "clip my podcast" and tell it where the footage is: a folder on your computer, or a Drive or Dropbox link. It finds the moments, cuts the clips and sends you a preview page. Reply with notes on any clip ("03 needs a stronger ending") and it recuts only that one. When you approve the batch, ask for title hooks.
+Say "clip my podcast" and tell it where the footage is: a folder on your computer, or a Google Drive, Dropbox or OneDrive link. It finds the moments, cuts the clips and sends you a preview page. Reply with notes on any clip ("03 needs a stronger ending") and it recuts only that one. When you approve the batch, ask for title hooks.
 
 ## What it needs
 
-- Python 3.10 or newer, and ffmpeg.
-- The first run sets up its tools with `scripts/setup.sh`. That takes about 1 GB of disk and a few minutes. Transcription runs locally with an open-source speech model, so there is no transcription service to pay for.
-- A bold sans font file for the captions (any one you are allowed to use).
-- It works best in Claude Code, or any agent that can run commands. Without a shell it can still find the moments and write the scripts and hooks.
+You don't need to set this up yourself. The first time you run it, it checks what's there and walks you through anything missing, step by step, with why each thing is needed.
+
+- **A Mac with Claude Code.** The cutting happens on your computer.
+- **The Instagram Edits app** (free, from edits.instagram.com), connected to Claude. It adds the music and title hooks with Instagram's own licensed songs and fonts.
+- **Its clipping tools.** Installed for you on the first run (about 1 GB). Transcription runs on your computer, so there's no service to pay for.
+- **A folder for the finished clips.** It asks where: Google Drive, Dropbox, OneDrive, or a folder on your Mac.
 - Separate camera and microphone files give the best clips. One finished video works too, with less movement.
 - English recordings only, for now.
 

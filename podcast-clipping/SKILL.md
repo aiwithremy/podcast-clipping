@@ -27,15 +27,22 @@ A note on words. **The host** is the person whose channel the clips are for. The
 
 The original brief, in the host's words: "being able to take another podcast... find the best moments, order the clips in a way where there's a coherent throughline and message in the short clip."
 
-## What you need
+## First run: check the setup
 
-- **A shell with Python 3.10+ and ffmpeg.** The kit in `scripts/` does the syncing, transcribing, cutting, captions and checks. Run `bash scripts/setup.sh` once. It installs a Python environment and three models (speech recognition, voice detection, face detection) into `~/.cache/clipkit` (about 1 GB on disk; the downloads come from pypi.org and github.com). No GPU. It works best in Claude Code or another agent that can run commands.
-- **The footage.** Each camera as its own file, and each microphone as its own file, gives the best clips. One finished video file also works, with less movement in the picture (see step 1).
-- **A caption font file.** Any bold sans .ttf or .otf the user has the right to use. None is bundled. See `references/captions.md`.
-- **Music (optional).** A short bank of songs the user is allowed to use. See `references/music.md`.
-- **Disk space.** The job folder holds 1080p copies of each camera, the audio and the renders. Allow a few GB per hour of footage.
+**Before anything else, the first time this skill runs, read `references/first-run-setup.md` and run its check.** Many users will have opened Claude for the first time today. Show them one plain checklist of what is ready and what is missing, why each thing is needed, and walk them through fixing each missing item one step at a time. Check each item yourself before ticking it.
 
-If you cannot run commands, you can still do steps 3, 4 and 12 (finding moments, scripting, title hooks) from a transcript, and hand the cut list to the user's editor.
+What it checks:
+
+- **A Mac with Claude Code.** The cutting runs on their computer.
+- **The clipping tools** in `scripts/` (`bash scripts/setup.sh`: Python 3.10+, ffmpeg and three small models, about 1 GB, no GPU).
+- **The Instagram Edits app, connected to Claude.** Edits adds the music and the title hooks with Instagram's own licensed songs and fonts. Claude drives it through the Edits automation server (usually named `metapilot-native`).
+- **A caption font file.** Any bold sans .ttf or .otf they have the right to use. None is bundled. See `references/captions.md`.
+- **Where to save the finished clips.** Ask: "Where do you want the finished clips saved? Do you have a content folder in Google Drive, Dropbox or OneDrive? Or I can save them in a folder on this Mac."
+- **Disk space.** A few GB per hour of footage.
+
+The footage itself is best as each camera and each microphone in its own file. One finished video file also works, with less movement in the picture (see step 1).
+
+If something can't be set up (no Mac, no Edits, no Claude Code), `first-run-setup.md` says what still works. Say it in one line and carry on.
 
 ## How to run it
 
@@ -57,7 +64,7 @@ The user's request to clip the recording covers every step inside it: downloadin
 Find out, from the request or by looking, rather than by asking:
 
 - **Where the footage is.** Wherever it lives: a local folder, Google Drive, Dropbox, a link from the show. If it is a share link, download it into the job folder.
-- **Where finished clips go.** If the user has not said, ask once. A layout that works: `Clips/YYYY/SOURCE NAME/` with the three folders above.
+- **Where finished clips go.** If the user has not said, ask once: "Where do you want the finished clips saved? Do you have a content folder in Google Drive, Dropbox or OneDrive? Or I can save them in a folder on this Mac." Save into that app's folder on their computer so it syncs. Inside it, use `Clips/YYYY/SOURCE NAME/` with the three folders above. See `references/delivery.md`.
 - **The caption font.** Ask for the file if none is in the job folder, or use a font already on the machine that they are happy with.
 - **Their songs for music.** Use their bank if they have one. If not, ask for three to five songs they like under talking clips, or deliver without music first and say so.
 - **What the channel is about**, so the moments you pick are in its lane. Read their channel or ask in one line.
@@ -161,9 +168,9 @@ Fix and re-check. If a clip still fails one item after two attempts, do not hold
 
 ### 8. Music
 
-Read `references/music.md`. Pick each clip's song from the user's bank by what the clip is doing. Start it past its intro. Add it in the user's editor, or mix it in with the ffmpeg command in that file. Measure it with `music_check.py`.
+Read `references/music.md`. Pick each clip's song by what the clip is doing. Start it past its intro. Add it in Edits (the default, with Instagram's licensed songs), or mix it in with the ffmpeg command in that file if there is no Edits. Measure it with `music_check.py`.
 
-Do this before the first delivery if the user has songs ready. Redoing the music on a recut clip takes about a minute. If there are no songs yet, deliver without music and say so.
+Do this before the first delivery. Redoing the music on a recut clip takes about a minute. If music can't be added yet, deliver without it and say so.
 
 ### 9. Show the user
 
@@ -194,7 +201,7 @@ Read `references/title-hooks.md`. This round starts once the clips are approved,
 
 - Write ten options per clip from a transcript of each finished clip. Use a hook-writing skill if you have one. Put them in one document with a heading per clip, a numbered list, and two starred picks.
 - Send the document and wait for their shortlist. This is one of the few points where the work waits on the user. They answer with numbers and may add lines of their own.
-- Put every shortlisted hook on its clip: in their editor, or burned in with the kit. One finished version per hook. Break each hook by phrase.
+- Put every shortlisted hook on its clip: in Edits (the default, with Instagram's own Classic font), or burned in with the kit. One finished version per hook. Break each hook by phrase.
 - Look at a still of every version (`title_check.py` helps). Copy them into `With title hook`. Send one page of stills.
 
 ## What the script kit has and has not been proven on
@@ -211,6 +218,7 @@ When a job falls outside the proven set-up, do one clip end to end first and che
 
 ## Reference files
 
+- `references/first-run-setup.md`: the first-run checklist, in plain words, with the fix steps for each missing item (Edits, its connection to Claude, the toolkit, the font, where to save).
 - `references/finding-and-scripting-clips.md`: what makes a moment worth cutting, what gets rejected, how to script, and every script correction from the first job.
 - `references/picture-rules.md`: the shot vocabulary, timings, listening shots, split screens and openings.
 - `references/audio-and-cutting.md`: clean edges and joins, microphone handling, loudness, and the checks.
